@@ -35,10 +35,11 @@ model = Resnet(n_classes=2, layers=args.layers).cuda()
 opt = Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-5, weight_decay=1e-3)
 
 if int(args.epoch) > 0:
+	print('Loading model and opt state_dict....')
 	model.load_state_dict(torch.load(save_location+'model/'+str(args.epoch)+'.pth'))
 	opt.load_state_dict(torch.load(save_location+'opt/'+str(args.epoch)+'.pth'))
 
-	print('Loading model and opt state_dict....')
+
 
 r = range(int(args.epoch), EPOCHS) if int(args.epoch) > 0 else range(EPOCHS)
 
