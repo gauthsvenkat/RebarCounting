@@ -24,6 +24,7 @@ class GraphVisualization:
 			update='append' if self.loss_win else None,
 			opts=dict(
 				xlabel='Epoch',
+				yaxis={'range':[0, 1000], 'autorange':False},
 				ylabel='loss',
 				title='Loss per Epoch'),
 			)
