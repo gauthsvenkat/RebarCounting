@@ -9,19 +9,19 @@ from models import Resnet
 from torch.optim import Adam
 from tqdm import tqdm
 import argparse
-from utils_pytorch import visualize_dots, GraphVisualization
+from utils_pytorch import visualize_dots
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-epoch', '--epoch', default=0)
 parser.add_argument('-layers', '--layers', default=101)
 parser.add_argument('-num_epoch', '--num_epoch', default=100)
 
+training_log = open('training_log.csv', 'a+')
+
 args = parser.parse_args()
 
 SCALE = [4,5,8,10]
 EPOCHS = int(args.num_epoch)
-
-vis = GraphVisualization()
 
 save_location = 'model_data/'
 
@@ -58,9 +58,9 @@ for epoch in r:
 			loss_sum += loss.item()
 			t.set_postfix(loss=loss_sum/(i+1))
 
-	vis.plot_loss(loss_sum, epoch+1)
+	training_log.write("{},{}\n".format(epoch, loss_sum))
 
-	if not epoch%10:
+	if not epoch%10 or epoch is EPOCHS:
 
 		save_path_model = save_location+'model/'
 		if not os.path.exists(save_path_model):
