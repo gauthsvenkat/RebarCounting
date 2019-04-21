@@ -8,9 +8,10 @@ from skimage.morphology import watershed
 from skimage.segmentation import find_boundaries
 import torch
 import visdom
+from tqdm import tqdm
 
 
-class GraphVisualization:
+'''class GraphVisualization:
 	def __init__(self, env_name='Training'):
 		self.env_name = env_name
 		self.vis = visdom.Visdom(env=self.env_name)
@@ -27,7 +28,16 @@ class GraphVisualization:
 				yaxis={'range':[0, 1000], 'autorange':False},
 				ylabel='loss',
 				title='Loss per Epoch'),
-			)
+			)'''
+
+class _tqdm(tqdm):
+	def format_num(self, n):
+		f = '{:.3f}'.format(n)
+
+		return f
+
+
+
 
 seq = iaa.Sequential([
 	iaa.Fliplr(.4), #Flip horizontal 40% of the time

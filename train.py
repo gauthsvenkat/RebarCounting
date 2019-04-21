@@ -7,7 +7,7 @@ from datagen_pytorch import DataGenerator
 from torch.utils.data import DataLoader
 from models import Resnet
 from torch.optim import Adam
-from tqdm import tqdm
+from utils_pytorch import _tqdm as tqdm
 import argparse
 from utils_pytorch import visualize_dots
 
@@ -59,7 +59,7 @@ for epoch in r:
 			loss_sum += loss.item()
 			t.set_postfix(loss=loss_sum/(i+1))
 
-	training_log.write("{},{}\n".format(epoch, loss_sum))
+	training_log.write("{},{}\n".format(epoch, loss_sum/(i+1)))
 
 	if not epoch%10 or epoch is EPOCHS:
 
@@ -87,7 +87,7 @@ for epoch in r:
 				if not os.path.exists(img_save_path):
 					os.makedirs(img_save_path)
 
-				visualize_dots(img, (out > 0.5).astype(int), save=True, path=img_save_path+str(i)+'.jpg')
+				visualize_dots(img, (out > 0.5).astype(int), save=True, path=img_save_path+str(i)+'.jpg', size=1)
 
 	print('\n')
 	torch.cuda.empty_cache()
