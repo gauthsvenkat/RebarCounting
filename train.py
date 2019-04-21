@@ -7,7 +7,7 @@ from datagen_pytorch import DataGenerator
 from torch.utils.data import DataLoader
 from models import Resnet
 from torch.optim import Adam
-from utils_pytorch import _tqdm as tqdm
+from utils_pytorch import _tqdm as tqdm, GraphVisualization
 import argparse
 from utils_pytorch import visualize_dots
 
@@ -24,6 +24,7 @@ SCALE = [4,5,8,10]
 EPOCHS = int(args.num_epoch)
 
 save_location = 'model_data/'
+vis = GraphVisualization()
 
 train_set = DataGenerator(root='Data/', scale=SCALE, split='train')
 trainloader = DataLoader(train_set, shuffle=True)
@@ -59,9 +60,9 @@ for epoch in r:
 			loss_sum += loss.item()
 			t.set_postfix(loss=loss_sum/(i+1))
 
-	training_log.write("{},{}\n".format(epoch, loss_sum/(i+1)))
+	vis.plot_loss(loss_sum/(i+1), epoch+1)
 
-	if not epoch%10 or epoch is EPOCHS:
+	if not (epoch+1)%10 or (epoch+1) is EPOCHS:
 
 		save_path_model = save_location+'model/'
 		if not os.path.exists(save_path_model):
@@ -90,7 +91,6 @@ for epoch in r:
 				visualize_dots(img, (out > 0.5).astype(int), save=True, path=img_save_path+str(i)+'.jpg', size=1)
 
 	print('\n')
-	torch.cuda.empty_cache()
 
 
 

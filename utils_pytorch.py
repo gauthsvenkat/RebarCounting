@@ -11,24 +11,23 @@ import visdom
 from tqdm import tqdm
 
 
-'''class GraphVisualization:
-	def __init__(self, env_name='Training'):
+class GraphVisualization:
+	def __init__(self, env_name='main'):
 		self.env_name = env_name
 		self.vis = visdom.Visdom(env=self.env_name)
-		self.loss_win = None
+		self.loss_win = 'Training'
 
 	def plot_loss(self, loss, epoch):
 		self.loss_win = self.vis.line(
 			X=[epoch],
 			Y=[loss],
 			win=self.loss_win,
-			update='append' if self.loss_win else None,
+			update='append',
 			opts=dict(
 				xlabel='Epoch',
-				yaxis={'range':[0, 1000], 'autorange':False},
 				ylabel='loss',
 				title='Loss per Epoch'),
-			)'''
+			)
 
 class _tqdm(tqdm):
 	def format_num(self, n):
