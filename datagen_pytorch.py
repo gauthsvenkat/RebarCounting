@@ -3,8 +3,8 @@ from glob import glob
 import os, ntpath
 import cv2
 import numpy as np
-import utils_pytorch as utp
-from utils_pytorch import augmenter
+import utils as utp
+from utils import augmenter
 import xml.etree.ElementTree as et
 from torchvision.transforms import Compose, ToTensor, Normalize
 import torch

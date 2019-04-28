@@ -1,25 +1,25 @@
 import os
 import torch
-from og_loss import lc_loss
+from LCFCNloss import lc_loss
 import numpy as np
 from torchvision import transforms
 from datagen_pytorch import DataGenerator
 from torch.utils.data import DataLoader
 from models import Resnet
 from torch.optim import Adam
-from utils_pytorch import _tqdm as tqdm, GraphVisualization
+from utils import _tqdm as tqdm, GraphVisualization, visualize_dots
 import argparse
-from utils_pytorch import visualize_dots
+
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-epoch', '--epoch', default=0)
-parser.add_argument('-layers', '--layers', default=101)
-parser.add_argument('-num_epoch', '--num_epoch', default=100)
+parser.add_argument('-e', '--epoch', default=0, type=int)
+parser.add_argument('-l', '--layers', default=101)
+parser.add_argument('-ne', '--num_epoch', default=100, type=int)
 
 args = parser.parse_args()
 
 SCALE = [4,5,8,10]
-EPOCHS = int(args.num_epoch)
+EPOCHS = args.num_epoch
 
 save_location = 'model_data/'
 vis = GraphVisualization()
@@ -33,14 +33,14 @@ testloader = DataLoader(test_set)
 model = Resnet(n_classes=2, layers=args.layers).cuda()
 opt = Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-5, weight_decay=1e-3)
 
-if int(args.epoch) > 0:
+if args.epoch > 0:
 	print('Loading model and opt state_dict....')
 	model.load_state_dict(torch.load(save_location+'model/'+str(args.epoch)+'.pth'))
 	opt.load_state_dict(torch.load(save_location+'opt/'+str(args.epoch)+'.pth'))
 
 
 
-r = range(int(args.epoch), EPOCHS) if int(args.epoch) > 0 else range(EPOCHS)
+r = range(args.epoch, EPOCHS) if args.epoch > 0 else range(EPOCHS)
 
 for epoch in r:
 	model.train()
