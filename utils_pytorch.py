@@ -3,9 +3,7 @@ import cv2
 from imgaug import augmenters as iaa
 import imgaug as ia
 import random, string
-from scipy.ndimage import black_tophat
-from skimage.morphology import watershed
-from skimage.segmentation import find_boundaries
+from skimage import morphology as morph
 import torch
 import visdom
 from tqdm import tqdm
@@ -73,6 +71,7 @@ def visualize_dots(img, points, save=False, name=None, path=None, size=5):
 
 	for x_cent, y_cent in zip(x,y):
 		img = cv2.circle(img, (x_cent,y_cent), size, (0,0,255), -1) #Draw a filled circle at these locations 
+	img = cv2.putText(img, str(morph.label(points, return_num=True)[1]), (0,0), cv2.FONT_HERSHEY_SIMPLEX, 5, (255,255,255))
 
 	if save and path:
 		cv2.imwrite(path, img)
@@ -88,16 +87,6 @@ def visualize_dots(img, points, save=False, name=None, path=None, size=5):
 		cv2.waitKey(0) 
 		cv2.destroyWindow("Dots Visualized")
 
-
-def watersplit(probs, points):
-
-	points[points!=0] = np.arange(1, sum(points).sum()+1).astype(float)
-
-	probs = black_tophat(probs, 7)
-
-	seg = watershed(probs, points)
-
-	return find_boundaries(seg)
 
 def t2n(x):
 	if isinstance(x, torch.Tensor):

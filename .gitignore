@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+Data/
+__visualizing_dots/
+__pycache__/
+model_data/
+
