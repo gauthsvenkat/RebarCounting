@@ -16,8 +16,6 @@ parser.add_argument('-epoch', '--epoch', default=0)
 parser.add_argument('-layers', '--layers', default=101)
 parser.add_argument('-num_epoch', '--num_epoch', default=100)
 
-training_log = open('training_log.csv', 'a+')
-
 args = parser.parse_args()
 
 SCALE = [4,5,8,10]
