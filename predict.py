@@ -25,6 +25,8 @@ testloader = DataLoader(gen)
 model = Resnet(n_classes=2, layers=101).cuda() #load model into gpu
 model.load_state_dict(torch.load(args.model_name)) #load model weights
 
+full_save_location = args.save_location+args.split+'/'
+
 with tqdm(testloader) as t:
 	for i, batch in enumerate(t):
 		t.set_description('TESTING:') #set description for progress bar
@@ -34,9 +36,9 @@ with tqdm(testloader) as t:
 		out = (torch.nn.functional.softmax(out, 1).cpu().detach().numpy()[0][1] > args.threshold).astype(int)
 		img = np.asarray(batch['OG_image'][0]) #get the original image
 
-		if not os.path.exists(args.save_location) #make sure directory exists else make one
-			os.makedirs(args.save_location)
+		if not os.path.exists(full_save_location) #make sure directory exists else make one
+			os.makedirs(full_save_location)
 		img_name = os.path.splitext(ntpath.basename(batch['image_path'][0]))[0] #get image name without extension and full path
 
 		#save the images and append the count to filename
-		visualize_dots(img, out, save=True, path=args.save_location+img_name+'_c-'+str(morph.label(out, return_num=True)[1])+'.jpg',size=1)
+		visualize_dots(img, out, save=True, path=full_save_location+img_name+'_c-'+str(morph.label(out, return_num=True)[1])+'.jpg',size=1)
