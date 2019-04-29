@@ -3,7 +3,7 @@ from models import Resnet
 from torch.utils.data import DataLoader
 import torch
 import numpy as np
-from utils_pytorch import visualize_dots
+from utils import visualize_dots
 from skimage import morphology as morph
 import argparse
 from tqdm import tqdm
