@@ -8,7 +8,7 @@ import torch
 import visdom
 from tqdm import tqdm
 
-
+#Class to enable visualizing in visdom
 class GraphVisualization:
 	def __init__(self, env_name='main'):
 		self.env_name = env_name
@@ -27,6 +27,7 @@ class GraphVisualization:
 				title='Loss per Epoch'),
 			)
 
+#modify tqdm progress bar format
 class _tqdm(tqdm):
 	def format_num(self, n):
 		f = '{:.3f}'.format(n)
@@ -35,7 +36,7 @@ class _tqdm(tqdm):
 
 
 
-
+# augmenter operations
 seq = iaa.Sequential([
 	iaa.Fliplr(.4), #Flip horizontal 40% of the time
 	iaa.Flipud(.4), #Flip Vertical 40% of the time
@@ -66,7 +67,7 @@ def augmenter(img, anno, seq=seq, debug=False):
 
 def visualize_dots(img, points, save=False, name=None, path=None, size=5):
 
-	points = points.squeeze()
+	points = points.squeeze() 
 	y,x= np.where(points==1) #Get locations of 1s
 
 	for x_cent, y_cent in zip(x,y):
@@ -87,7 +88,7 @@ def visualize_dots(img, points, save=False, name=None, path=None, size=5):
 		cv2.destroyWindow("Dots Visualized")
 
 
-def t2n(x):
+def t2n(x): #convert tensor to numpy
 	if isinstance(x, torch.Tensor):
 		x = x.cpu().detach().numpy()
 
