@@ -36,7 +36,7 @@ with tqdm(testloader) as t:
 		out = (torch.nn.functional.softmax(out, 1).cpu().detach().numpy()[0][1] > args.threshold).astype(int)
 		img = np.asarray(batch['OG_image'][0]) #get the original image
 
-		if not os.path.exists(full_save_location) #make sure directory exists else make one
+		if not os.path.exists(full_save_location): #make sure directory exists else make one
 			os.makedirs(full_save_location)
 		img_name = os.path.splitext(ntpath.basename(batch['image_path'][0]))[0] #get image name without extension and full path
 
