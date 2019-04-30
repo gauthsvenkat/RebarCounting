@@ -108,4 +108,6 @@ __visualizing_dots/
 __pycache__/
 model_data/
 testing/
+reports/
+generate_report.py
 
