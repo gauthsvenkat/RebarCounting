@@ -17,6 +17,7 @@ parser.add_argument('-e', '--epoch', default=0, type=int, help='Epoch to start f
 parser.add_argument('-l', '--layers', default=101, help='resnet version to use')
 parser.add_argument('-ne', '--num_epoch', default=100, type=int, help='number of epochs to train the model')
 parser.add_argument('-se', '--save_every', default=10, type=int, help='save every - iterations')
+parser.add_argument('-v','--visdom', default=False, type=bool, help='Host visdom server')
 
 args = parser.parse_args()
 
@@ -24,7 +25,9 @@ SCALE = [4,5,8,10] #Mutiple scale to train the model on (you can use more scale 
 EPOCHS = args.num_epoch
 
 save_location = 'model_data/' #model save location
-vis = GraphVisualization() #initialize the visdom object
+
+if args.visdom:
+	vis = GraphVisualization() #initialize the visdom object
 
 train_set = DataGenerator(root=args.root, scale=SCALE, split='train')
 trainloader = DataLoader(train_set, shuffle=True)
@@ -58,7 +61,8 @@ for epoch in r:
 			loss_sum += loss.item() #add current loss to overall loss
 			t.set_postfix(loss=loss_sum/(i+1)) #display the average loss in the progress bar
 
-	vis.plot_loss(loss_sum/(i+1), epoch+1) #plot loss for every epoch
+	if args.visdom:
+		vis.plot_loss(loss_sum/(i+1), epoch+1) #plot loss for every epoch
 
 	if not (epoch+1)%args.save_every or (epoch+1) is EPOCHS: #save every args.save_every epochs
 
