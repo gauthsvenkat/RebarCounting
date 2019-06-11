@@ -2,10 +2,29 @@
 A computer vision deep learning model to automatically count the number of rebars, based on https://arxiv.org/abs/1807.09856
 
 ## Installation
-If you have pip installed, run
+First clone the repository. Run
+ ```
+ git clone https://github.com/andohuman/RebarCounting.git
+ ```
+Since the repository also contains some large files (weights) you might additionally want to run 
+ ```
+ git lfs install
+ git lfs pull
+ ```
+This will download the weights (for predition)
+
+Then, if you have pip installed, run
 ```
 pip install -r requirements.txt
 ```
+This will install all the requirements for the code.
+
+then run 
+```
+python3 train.py -r __misc/ -l 50 -ne 1
+```
+to see if the training script is working right. This should generate a bad prediction in _visualizing_dots/1/
+
 This code requires cuda 10.0 and corresponding cudnn to be installed on the system.
 Code was ran and tested on python 3.6.8, torch 1.0.1 and torchvision 0.2.2
 
