@@ -10,6 +10,7 @@ This code requires cuda 10.0 and corresponding cudnn to be installed on the syst
 Code was ran and tested on python 3.6.8, torch 1.0.1 and torchvision 0.2.2
 
 ## Usage
+### For training 
 Run
 ```
 python3 train.py -h
@@ -35,12 +36,70 @@ optional arguments:
 ```
 -r, --root :- specifies the directory that houses the images and the annotations. (it is expected that the xml files are in root/annotations/ in PASCAL VOC format and the images in JPG format are in root/training/)
 
--e, --epoch :- Epoch to start from (make sure epoch.pth exists in model_data/model and model_data/opt)
+-e, --epoch :- If resuming training, epoch to start from (make sure epoch.pth exists in model_data/model and model_data/opt)
 
 -l, --layers :- is the resnet version to use (either 50, 101 or 152)
 
 -v, --visdom :- set this to true if you have visdom installed and would like to monitor your progress
 
+Example:-
+```
+python3 train.py -r Data/ -e model_data/model/570.pth -l 101 -ne 100 -se 10 -v True
+```
+### For predicting
+run 
+```
+python3 predict.py -h 
+usage: predict.py [-h] [-r ROOT] [-s SPLIT] [-sc SCALE] [-sl SAVE_LOCATION]
+                  [-t THRESHOLD]
+                  model_name
 
+Count rebars in images
+
+positional arguments:
+  model_name            The full path of the trained model (.pth file)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r ROOT, --root ROOT  Root directory housing the data
+  -s SPLIT, --split SPLIT
+                        Either test or custom split
+  -sc SCALE, --scale SCALE
+                        Scale down image by this factor
+  -sl SAVE_LOCATION, --save_location SAVE_LOCATION
+                        Location to save the predicted images
+  -t THRESHOLD, --threshold THRESHOLD
+                        Threshold to consider as positive, (predictions >
+                        threshold) will be counted as 1
+```
+-r, --root :- root directory housing the data
+
+-s, --split :- either test or a custom split (the directory should be structured as Data/test/ for test or Data/custom_name for a custom testing, which should contain all the images in jpg format to be tested)
+
+-sc, --scale :- Use this argument to scale down the images. (sometimes larger images take a long time to predict with marginal improvements in accuracy)
+
+-sl, --save_location :- Path to a directory to save the predictedi images
+
+-t, --threshold :- consider predictions as positive if they are greater than threshold
+
+Example:- 
+```
+python3 predict.py -r Data/ -s testing/ -sc 5 -sl predicted_images/ -t 0.95
+```
+
+## Acknowledgements
+
+This project is done under the guidance of TATA innovation. 
+The code is based on the paper https://arxiv.org/abs/1807.09856.
+
+## Citations
+```
+@Article{laradji2018blobs,
+    title={Where are the Blobs: Counting by Localization with Point Supervision},
+    author={Laradji, Issam H and Rostamzadeh, Negar and Pinheiro, Pedro O and Vazquez, David and Schmidt, Mark},
+    journal = {ECCV},
+    year = {2018}
+}
+```
 
 
