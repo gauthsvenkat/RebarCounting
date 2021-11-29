@@ -109,7 +109,7 @@ python3 predict.py -r Data/ -s testing/ -sc 5 -sl predicted_images/ -t 0.95
 ## Acknowledgements
 
 This project is done under the guidance of TATA innovation. 
-The code is based on the paper https://arxiv.org/abs/1807.09856.
+The project is based on the paper https://arxiv.org/abs/1807.09856. If you would like to cite this work, please cite the original authors.
 
 ## Citations
 ```
