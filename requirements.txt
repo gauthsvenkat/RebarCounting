@@ -2,7 +2,7 @@
 
 
 imgaug == 0.2.8
-numpy == 1.16.2
+numpy == 1.22.0
 opencv_python == 4.2.0.32
 pandas == 0.24.1
 scikit_image == 0.14.2
